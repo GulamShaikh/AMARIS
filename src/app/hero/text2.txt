@@ -1,0 +1,178 @@
+"use client";
+
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { OrbitControls, useTexture } from "@react-three/drei";
+import { useRef, useMemo } from "react";
+import * as THREE from "three";
+import getStarfield from "@/components/hero/getStarfield";
+
+/* ================= EARTH POINTS ================= */
+
+function EarthPoints() {
+  const pointsRef = useRef();
+  const { camera, gl } = useThree();
+
+  const [colorMap, elevMap, alphaMap, otherMap] = useTexture([
+    "/textures/00_earthmap1k.jpg",
+    "/textures/01_earthbump1k.jpg",
+    "/textures/02_earthspec1k.jpg",
+    "/textures/04_rainbow1k.jpg",
+  ]);
+
+  const raycaster = useMemo(() => new THREE.Raycaster(), []);
+  const pointer = useMemo(() => new THREE.Vector2(), []);
+  const globeUV = useMemo(() => new THREE.Vector2(), []);
+
+  /* ================= SHADERS ================= */
+
+  const vertexShader = `
+    uniform float size;
+    uniform sampler2D elevTexture;
+    uniform vec2 mouseUV;
+
+    varying vec2 vUv;
+    varying float vVisible;
+    varying float vDist;
+
+    void main() {
+      vUv = uv;
+
+      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+
+      float elv = texture2D(elevTexture, vUv).r;
+
+      vec3 vNormal = normalMatrix * normal;
+
+      // visibility for depth shading (NOT cutting anymore)
+      vVisible = dot(-normalize(mvPosition.xyz), normalize(vNormal));
+
+      // elevation
+      mvPosition.z += 0.25 * elv;
+
+      // hover effect
+      float dist = distance(mouseUV, vUv);
+      float zDisp = 0.0;
+      float thresh = 0.04;
+
+      if (dist < thresh) {
+        zDisp = (thresh - dist) * 8.0;
+      }
+
+      vDist = dist;
+      mvPosition.z += zDisp;
+
+      gl_PointSize = size;
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `;
+
+  const fragmentShader = `
+    uniform sampler2D colorTexture;
+    uniform sampler2D alphaTexture;
+    uniform sampler2D otherTexture;
+
+    varying vec2 vUv;
+    varying float vVisible;
+    varying float vDist;
+
+    void main() {
+
+      // 🚫 REMOVE OCEAN
+      float landMask = texture2D(alphaTexture, vUv).r;
+      if (landMask > 0.3) discard;
+
+      vec3 color = texture2D(colorTexture, vUv).rgb;
+      vec3 other = texture2D(otherTexture, vUv).rgb;
+
+      float thresh = 0.04;
+      if (vDist < thresh) {
+        color = mix(color, other, (thresh - vDist) * 50.0);
+      }
+
+      // 🌑 DEPTH SHADING (front bright, back dim)
+      float visibility = clamp(vVisible * 0.5 + 0.5, 0.15, 1.0);
+      color *= visibility;
+
+      gl_FragColor = vec4(color, 0.85);
+    }
+  `;
+
+  /* ================= UNIFORMS ================= */
+
+  const uniforms = useMemo(
+    () => ({
+      size: { value: 2.8 },
+      colorTexture: { value: colorMap },
+      otherTexture: { value: otherMap },
+      elevTexture: { value: elevMap },
+      alphaTexture: { value: alphaMap },
+      mouseUV: { value: new THREE.Vector2(0, 0) },
+    }),
+    [colorMap, elevMap, alphaMap, otherMap],
+  );
+
+  /* ================= GEOMETRY ================= */
+
+  const geometry = useMemo(() => {
+    return new THREE.IcosahedronGeometry(2, 80);
+  }, []);
+
+  /* ================= INTERACTION ================= */
+
+  useFrame(() => {
+    if (!pointsRef.current) return;
+
+    const mouse = gl.domElement.__mouse || { x: 0, y: 0 };
+
+    pointer.set(mouse.x, mouse.y);
+    raycaster.setFromCamera(pointer, camera);
+
+    const intersects = raycaster.intersectObject(pointsRef.current);
+
+    if (intersects.length > 0 && intersects[0].uv) {
+      globeUV.copy(intersects[0].uv);
+    }
+
+    uniforms.mouseUV.value = globeUV;
+
+    // rotation
+    pointsRef.current.rotation.y += 0.002;
+  });
+
+  return (
+    <points ref={pointsRef} geometry={geometry}>
+      <shaderMaterial
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
+
+/* ================= PAGE ================= */
+
+export default function HomePage() {
+  return (
+    <div className="h-screen w-full bg-black">
+      <Canvas camera={{ position: [0, 0, 4], fov: 45 }}>
+        {/* 🌌 DARK SPACE BACKGROUND */}
+        <color attach="background" args={["#020617"]} />
+
+        {/* subtle light */}
+        <ambientLight intensity={0.2} />
+
+        {/* 🌍 EARTH */}
+        <EarthPoints />
+
+
+        {/* controls */}
+        <OrbitControls enableZoom={false} />
+      </Canvas>
+    </div>
+  );
+}

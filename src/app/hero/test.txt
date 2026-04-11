@@ -1,0 +1,114 @@
+"use client";
+
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Center } from "@react-three/drei";
+import { useEffect } from "react";
+import * as THREE from "three";
+
+/* ================= CONTROLS ================= */
+// 🎮 CAMERA CONTROLS
+const CAMERA_POSITION = [0, 1.5, 6]; // [x, y, z]
+const CAMERA_LOOK_AT = [0, 1, -2]; // [x, y, z]
+
+// 🎮 MODEL CONTROLS
+const MODEL_SCALE = 10;
+const MODEL_ROTATION = [-0.2, Math.PI / 120, 0]; // [x, y, z]
+
+/* ================= CAMERA SETUP ================= */
+
+function CameraSetup() {
+  const { camera } = useThree();
+
+  useEffect(() => {
+    camera.position.set(...CAMERA_POSITION);
+    camera.lookAt(new THREE.Vector3(...CAMERA_LOOK_AT));
+  }, [camera]);
+
+  return null;
+}
+
+/* ================= MODEL ================= */
+
+function Model() {
+  const { scene } = useGLTF("/models/LD1.glb");
+
+  return (
+    <Center>
+      <primitive object={scene} scale={MODEL_SCALE} rotation={MODEL_ROTATION} />
+    </Center>
+  );
+}
+
+/* ================= PAGE ================= */
+
+export default function HeroPage() {
+  return (
+    <div className="relative h-screen w-full text-white overflow-hidden">
+      {/* 3D BACKGROUND */}
+<Canvas camera={{ position: CAMERA_POSITION, fov: 45 }}>
+  <CameraSetup />
+
+  {/* 🌑 DARK BACKGROUND */}
+  <color attach="background" args={["#020617"]} />
+
+  {/* 🌫️ Fog for gloom */}
+  <fog attach="fog" args={["#020617", 4, 15]} />
+
+  {/* 🌙 Ambient (very low) */}
+  <ambientLight intensity={0.2} />
+
+  {/* 🔥 Key Light (front highlight) */}
+  <directionalLight
+    position={[3, 5, 4]}
+    intensity={2}
+    color="#ffffff"
+  />
+
+  {/* ❄️ Cool Rim Light (edge glow) */}
+  <directionalLight
+    position={[-5, 3, -5]}
+    intensity={1}
+    color="#4f6fff"
+  />
+
+  {/* 🌌 Subtle front glow */}
+  <pointLight
+    position={[0, 2, 2]}
+    intensity={0.6}
+    color="#6ea8ff"
+  />
+
+  {/* MODEL */}
+  <Model />
+
+  <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+</Canvas>
+      {/* CENTER CTA */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+        <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-wide">
+          AMARIS
+        </h1>
+
+        <p className="text-lg md:text-xl text-gray-200 mb-8">
+          Clarity in Every Conversation.
+        </p>
+
+        <div className="flex gap-4">
+          <a
+            href="/chat"
+            className="px-8 py-3 bg-white text-black rounded-xl font-medium hover:scale-105 transition"
+          >
+            Start Chat
+          </a>
+
+          <a
+            href="/weather"
+            className="px-8 py-3 border border-white rounded-xl hover:bg-white hover:text-black transition"
+          >
+            Explore Weather
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
