@@ -17,12 +17,6 @@ AMARIS is an intelligent, open web platform that unites conversational AI, live 
 ![AMARIS Weather Dashboard](public/images/img2.jpeg)
 *Real-time Weather Dashboard with Interactive Map and Analytical Charts*
 
-![AMARIS Chatbot](public/images/img3.jpeg)
-*AI Chat Interface - Get real-time contextual information*
-
-![AMARIS News Feed](public/images/img4.jpeg)
-*Live Global News Dashboard*
-
 ## Tech Stack
 - **Framework:** [Next.js](https://nextjs.org) 16
 - **Language:** JavaScript & React 19
