@@ -32,24 +32,14 @@ export default function MenuPage() {
         <div
           key={i}
           onClick={() => router.push(sec.path)}
-          className="
-            group flex-1 flex items-center justify-center
-            cursor-pointer relative overflow-hidden
-            border border-black/5
-            transition-all duration-500
-          "
+          className="group flex-1 flex items-center justify-center cursor-pointer relative overflow-hidden border border-black/5 transition-all duration-500"
         >
           {/* ⚪ BASE */}
           <div className="absolute inset-0 bg-white z-0" />
 
           {/* 🖼️ HOVER IMAGE */}
           <div
-            className="
-              absolute inset-0 z-0
-              opacity-0 group-hover:opacity-100
-              transition duration-700
-              scale-110 group-hover:scale-100
-            "
+            className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition duration-700 scale-110 group-hover:scale-100"
           >
             <img
               src={sec.img}

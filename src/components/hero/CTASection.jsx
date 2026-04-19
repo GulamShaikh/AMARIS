@@ -8,9 +8,7 @@ export default function CTASection() {
       <div className="max-w-6xl mx-auto">
         <a
           href="/chat"
-          className="group relative block w-full overflow-hidden rounded-[34px]
-          border border-black/10 shadow-[0_20px_70px_rgba(0,0,0,0.15)]
-          transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_35px_120px_rgba(0,0,0,0.22)]"
+          className="group relative block w-full overflow-hidden rounded-[34px] border border-black/10 shadow-[0_20px_70px_rgba(0,0,0,0.15)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_35px_120px_rgba(0,0,0,0.22)]"
         >
           {/* BACKGROUND */}
           <div
@@ -56,15 +54,7 @@ export default function CTASection() {
             {/* RIGHT PANEL */}
             <div className="relative flex items-center justify-center w-[140px] md:w-[200px] border-l border-white/15">
               <button
-                className="
-    group relative w-28 h-28 md:w-36 md:h-36
-    rounded-full overflow-hidden
-    bg-white/10 backdrop-blur border border-white/20
-    grid place-content-center
-    transition-all duration-300
-    hover:scale-110 hover:bg-white/20
-    shadow-[0_10px_40px_rgba(0,0,0,0.25)]
-  "
+                className="group relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-white/10 backdrop-blur border border-white/20 grid place-content-center transition-all duration-300 hover:scale-110 hover:bg-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.25)]"
               >
                 {/* ROTATING TEXT */}
                 <div

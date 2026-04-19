@@ -56,34 +56,18 @@ export default function BenefitorsSection() {
           {roles.map((item, index) => (
             <div
               key={index}
-              className="
-                group flex items-center gap-6
-                text-5xl md:text-6xl font-bold
-                opacity-50 hover:opacity-100
-                transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                cursor-pointer
-              "
+              className="group flex items-center gap-6 text-5xl md:text-6xl font-bold opacity-50 hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-pointer"
             >
               {/* ICON */}
               <div
-                className="
-                  w-14 h-14 flex items-center justify-center
-                  rounded-xl text-black/60
-                  transition-all duration-500
-                  group-hover:text-blue-600 
-                  group-hover:scale-110
-                "
+                className="w-14 h-14 flex items-center justify-center rounded-xl text-black/60 transition-all duration-500 group-hover:text-blue-600 group-hover:scale-110"
               >
                 {item.icon}
               </div>
 
               {/* TEXT */}
               <span
-                className="
-                  transition-all duration-500
-                  group-hover:tracking-wider
-                  group-hover:translate-x-2
-                "
+                className="transition-all duration-500 group-hover:tracking-wider group-hover:translate-x-2"
               >
                 {item.label}
               </span>
