@@ -171,19 +171,7 @@ export default function HomePage() {
           </div>
 
           {/* KEYFRAMES */}
-          <style>{`
-            @keyframes amarisTitle {
-              0% {
-                background-position: 0% 50%;
-              }
-              50% {
-                background-position: 100% 50%;
-              }
-              100% {
-                background-position: 0% 50%;
-              }
-            }
-          `}</style>
+          {/* Style block removed for testing */}
         </div>
       </section>
 
