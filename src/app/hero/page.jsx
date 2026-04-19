@@ -171,7 +171,7 @@ export default function HomePage() {
           </div>
 
           {/* KEYFRAMES */}
-          <style jsx>{`
+          <style>{`
             @keyframes amarisTitle {
               0% {
                 background-position: 0% 50%;
