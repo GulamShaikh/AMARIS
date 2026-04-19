@@ -12,22 +12,17 @@ export default function CTASection() {
         >
           {/* BACKGROUND */}
           <div
-            className="absolute inset-0 animate-[amarisGlow_7s_ease-in-out_infinite]
-            bg-[radial-gradient(circle_at_20%_30%,rgba(30,64,175,0.85),transparent_55%),radial-gradient(circle_at_70%_40%,rgba(75,85,99,0.70),transparent_60%),radial-gradient(circle_at_85%_80%,rgba(2,6,23,0.95),transparent_65%)]"
+            className="absolute inset-0 animate-[amarisGlow_7s_ease-in-out_infinite] bg-[radial-gradient(circle_at_20%_30%,rgba(30,64,175,0.85),transparent_55%),radial-gradient(circle_at_70%_40%,rgba(75,85,99,0.70),transparent_60%),radial-gradient(circle_at_85%_80%,rgba(2,6,23,0.95),transparent_65%)]"
           />
 
           {/* WAVE */}
           <div
-            className="absolute -inset-24 opacity-60 blur-2xl transition
-            bg-[conic-gradient(from_90deg,rgba(30,64,175,0.70),rgba(2,6,23,0.85),rgba(75,85,99,0.60),rgba(30,64,175,0.70))]
-            animate-[amarisSpin_12s_linear_infinite] group-hover:animate-[amarisSpin_5s_linear_infinite]"
+            className="absolute -inset-24 opacity-60 blur-2xl transition bg-[conic-gradient(from_90deg,rgba(30,64,175,0.70),rgba(2,6,23,0.85),rgba(75,85,99,0.60),rgba(30,64,175,0.70))] animate-[amarisSpin_12s_linear_infinite] group-hover:animate-[amarisSpin_5s_linear_infinite]"
           />
 
           {/* SHEEN */}
           <div
-            className="absolute inset-0 opacity-25 translate-x-[-120%]
-            bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.55)_35%,transparent_65%)]
-            animate-[amarisSheen_6s_ease-in-out_infinite] group-hover:animate-[amarisSheen_1.8s_ease-in-out_infinite]"
+            className="absolute inset-0 opacity-25 translate-x-[-120%] bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.55)_35%,transparent_65%)] animate-[amarisSheen_6s_ease-in-out_infinite] group-hover:animate-[amarisSheen_1.8s_ease-in-out_infinite]"
           />
 
           {/* CONTRAST */}
